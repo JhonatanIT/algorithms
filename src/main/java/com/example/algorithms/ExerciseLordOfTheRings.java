@@ -11,8 +11,8 @@ public class ExerciseLordOfTheRings {
     public static void main(String[] args) {
 
         lordOfTheRings("""
-                10
-                -5 -3 23 -3232 -45 0 5 5 10 -5""");
+                3
+                5 10 -5""");
     }
 
     private static void lordOfTheRings(String input) {
@@ -52,12 +52,12 @@ public class ExerciseLordOfTheRings {
         List<Integer> tempList = new ArrayList<>();
         boolean skipNegatives = false;
 
-        for (int i = 0; i < n; i++) {
-            if (potentialList.get(i) >= 0) {
+        for (Integer value : potentialList) {
+            if (value >= 0) {
                 skipNegatives = true;
-                tempList.add(potentialList.get(i));
+                tempList.add(value);
             } else if (!skipNegatives) {
-                tempList.add(potentialList.get(i));
+                tempList.add(value);
             }
         }
 
