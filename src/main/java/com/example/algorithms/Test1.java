@@ -1,7 +1,6 @@
 package com.example.algorithms;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Test1 implements Runnable {
@@ -12,7 +11,6 @@ public class Test1 implements Runnable {
     }
 
     public static void main(String[] args) {
-        System.out.println("a");
 
         SubClass bbb = new SubClass();
         bbb.get();
@@ -20,7 +18,7 @@ public class Test1 implements Runnable {
         Test1 aa = new SubClass();
         aa.get();
 
-        //Runtime error
+////        Runtime error
 //        Set set = new TreeSet();
 //        set.add(1);
 //        set.add("3");
@@ -64,6 +62,21 @@ public class Test1 implements Runnable {
 //        animal.wagTail();         //animal object can't use own Dog's methods
         animal.move();
         animal.makeNoise();
+
+        //Test sort Collections
+        String[] strings = new String[]{"abD", "aB", "ABC", "cDe", "CDd"};
+        Collections.sort(Arrays.asList(strings), String::compareToIgnoreCase);
+        Arrays.stream(strings).forEach(System.out::println);
+
+        //ArrayList y LinkedList support nulls?
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        stringArrayList.add(null);
+
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add(null);
+
+        System.out.println(stringArrayList.toString());
+        System.out.println(linkedList.toString());
 
     }
 
