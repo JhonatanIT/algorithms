@@ -104,6 +104,45 @@ public class JuniorTest {
         System.out.println(list);
     }
 
+    public static void minSizeSubstringDeleted(String string) {
+
+        Map<String, Integer> map = new HashMap<>();
+
+        //Mapping characters and quantity
+        Arrays.asList(string.split("")).forEach(x -> {
+            if (map.containsKey(x)) {
+                map.put(x, map.get(x) + 1);
+            } else {
+                map.put(x, 1);
+            }
+        });
+
+        //Get duplicated and non-duplicated characters
+        List<String> duplicated = map.entrySet().stream().filter(x -> x.getValue() > 1).map(Map.Entry::getKey).toList();
+        List<String> nonDuplicated = map.entrySet().stream().filter(x -> x.getValue() == 1).map(Map.Entry::getKey).toList();
+
+        int counter = string.length();
+        String uniqueString = string;
+
+        //Get all substring
+        for (int i = 0; i < string.length(); i++) {
+            for (int j = i + 1; j <= string.length(); j++) {
+
+                String temp = string.substring(0, i) + string.substring(j);  //delete every substring and evaluate
+
+                if (duplicated.stream().allMatch(x -> temp.chars().filter(c -> (char) c == x.charAt(0)).count() <= 1)   //only 1 occurrence of duplicated
+                        && nonDuplicated.stream().anyMatch(temp::contains)                                              //there may be no-duplicate items
+                        && j - i < counter) {
+                    counter = j - i;
+                    uniqueString = temp;
+                }
+            }
+        }
+
+        System.out.println("The minimum length of the deleted subString is " + counter + " and the final subString with unique elements is: " + uniqueString);
+
+    }
+
     public static void main(String[] args) {
 
 //        reverseString("moto");
@@ -115,8 +154,8 @@ public class JuniorTest {
 //        randomOrderString("Jhonatan");
 //        getNonDuplicatedList(Arrays.asList(1,2,4,5,6,7,2,346,6,5,2));
 //        stringHasVowel("Jhonatan");
-
-        morseCode("....");
+//        morseCode("....");
+        minSizeSubstringDeleted("abcfgacbcrbbb");  //
     }
 
 }
