@@ -83,7 +83,6 @@ public class IntermediateTests {
      * Sort the subsequence in increasing order.
      * Determine the sum of differences of elements in the subsequence.
      * Return the length of the longest subsequence where this sum is even
-     *
      */
     public static void findLongestSubsequence(List<Integer> list) {
 
@@ -119,11 +118,48 @@ public class IntermediateTests {
         System.out.println(ans);
     }
 
+    // Function to calculate Euclidean distance to the centroid
+    static double find(double x, double y,
+                       int[][] p) {
+        double mind = 0;
+
+        for (int i = 0; i < p.length; i++) {
+            double a = p[i][0], b = p[i][1];
+            mind += Math.sqrt((x - a) * (x - a) +
+                    (y - b) * (y - b));
+        }
+        return mind;
+    }
+
+    /**
+     * Function to calculate the minimum sum of the euclidean distances to all points
+     */
+    static void getMinDistSum(int[][] p) {
+
+        // Calculate the centroid
+        double x = 0, y = 0;
+        for (int i = 0; i < p.length; i++) {
+            x += p[i][0];
+            y += p[i][1];
+        }
+
+        x = x / p.length;
+        y = y / p.length;
+
+        // Calculate distance of all points
+        System.out.println(find(x, y, p));
+    }
+
 
     public static void main(String[] args) {
 
 //        shortestSubstringToDelete("xabbcacpqr");
 //        noPairsAllowed(List.of("ab","aab","abb","abab","abaaaba","abaaaaba"));
-        findLongestSubsequence(List.of(5, 6, 2, 3, 2, 4));
+//        findLongestSubsequence(List.of(5, 6, 2, 3, 2, 4));
+
+        // Initializing the points
+        int[][] vec = {{0, 1}, {1, 0},
+                {1, 2}, {2, 1}};
+        getMinDistSum(vec);
     }
 }
