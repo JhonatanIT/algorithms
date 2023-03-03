@@ -1,5 +1,6 @@
 package com.example.algorithms;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -151,15 +152,48 @@ public class IntermediateTests {
     }
 
 
+    public static void permuteAllValuesFromInteger(int num) {
+        // code goes here
+        List<String> list = new ArrayList<>();
+        permuteString(list, String.valueOf(num), 0, (String.valueOf(num).length() - 1));
+
+        list.forEach(System.out::println);
+    }
+
+    public static void permuteString(List<String> list, String string, int start, int rest) {
+
+        if (start == rest) {
+            list.add(string);
+        } else {
+            for (int i = start; i <= rest; i++) {
+                string = swapStringPosition(string, start, i);
+                permuteString(list, string, start + 1, rest);
+                string = swapStringPosition(string, start, i);
+            }
+        }
+    }
+
+    public static String swapStringPosition(String string, int i, int j) {
+        char[] charArr = string.toCharArray();
+        char temp = charArr[i];
+        charArr[i] = charArr[j];
+        charArr[j] = temp;
+
+        return String.valueOf(charArr);
+    }
+
+
     public static void main(String[] args) {
 
 //        shortestSubstringToDelete("xabbcacpqr");
 //        noPairsAllowed(List.of("ab","aab","abb","abab","abaaaba","abaaaaba"));
 //        findLongestSubsequence(List.of(5, 6, 2, 3, 2, 4));
+//
+//        // Initializing the points
+//        int[][] vec = {{0, 1}, {1, 0},
+//                {1, 2}, {2, 1}};
+//        getMinDistSum(vec);
 
-        // Initializing the points
-        int[][] vec = {{0, 1}, {1, 0},
-                {1, 2}, {2, 1}};
-        getMinDistSum(vec);
+        permuteAllValuesFromInteger(123);
     }
 }
