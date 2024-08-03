@@ -2,6 +2,7 @@ package com.example.algorithms;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -143,6 +144,74 @@ public class JuniorTest {
 
     }
 
+    public static void miniMaxSum(List<Integer> arr) {
+        // Write your code here
+
+        int n = arr.size();
+
+        if (n == 0) {
+            System.out.println("0 0");
+            return;
+        } else if (n == 1) {
+            System.out.println(arr.getFirst() + " " + arr.getFirst());
+            return;
+        }
+
+        List<Integer> arrOrdered = arr.stream().sorted().collect(Collectors.toList());
+        long sum = 0;
+        for (int i = 1; i < n - 1; i++) {
+            sum += arrOrdered.get(i);
+        }
+
+        long min = sum + arrOrdered.getFirst();
+        long max = sum + arrOrdered.getLast();
+
+        System.out.println(min + " " + max);
+    }
+
+    public static String timeConversion(String s) {
+        // Write your code here
+        String[] time = s.split(":");
+        int hour = Integer.parseInt(time[0]);
+
+        if (s.contains("PM") && 12 != hour) {
+            hour += 12;
+        } else if (s.contains("AM") && 12 == hour) {
+            hour = 0;
+        }
+
+        //String.format("%02d", hour) -> add up to 2 digits
+        String timeConversion = String.format("%02d", hour) + ":" + time[1] + ":" + time[2].substring(0, 2);
+        System.out.println(timeConversion);
+
+        return timeConversion;
+    }
+
+    public static List<Integer> breakingRecords(List<Integer> scores) {
+        // Write your code here
+        int countMin = 0;
+        int countMax = 0;
+        int min = scores.get(0);
+        int max = scores.get(0);
+
+        for (int score : scores) {
+            if (score < min) {
+                countMin++;
+                min = score;
+            } else if (score > max) {
+                countMax++;
+                max = score;
+            }
+        }
+
+        List<Integer> records = new ArrayList<>();
+        records.add(countMax);
+        records.add(countMin);
+        System.out.println(records);
+
+        return records;
+    }
+
     public static void main(String[] args) {
 
 //        reverseString("moto");
@@ -155,7 +224,10 @@ public class JuniorTest {
 //        getNonDuplicatedList(Arrays.asList(1,2,4,5,6,7,2,346,6,5,2));
 //        stringHasVowel("Jhonatan");
 //        morseCode("....");
-        minSizeSubstringDeleted("abcfgacbcrbbb");  //
+//        minSizeSubstringDeleted("abcfgacbcrbbb");  //
+//        miniMaxSum(Arrays.asList(1, 2, 4, 5, 6, 7, 2, 346, 6, 5, 2));
+//        timeConversion("04:40:22AM"); //"12:34:43PM"
+        breakingRecords(List.of(10,5,20,20,4,5,2,25,1));
     }
 
 }
