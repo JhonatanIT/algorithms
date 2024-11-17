@@ -25,24 +25,18 @@ public class JuniorTest {
 
         int[] counter = new int[256];
 
-        IntStream.range(0, string.length())
-                .forEach(i -> counter[string.charAt(i)]++);
+        IntStream.range(0, string.length()).forEach(i -> counter[string.charAt(i)]++);
 
-        IntStream.range(0, counter.length)
-                .filter(i -> counter[i] > 0)
-                .forEach(i -> System.out.println((char) i + " : " + counter[i]));
+        IntStream.range(0, counter.length).filter(i -> counter[i] > 0).forEach(i -> System.out.println((char) i + " : " + counter[i]));
     }
 
     public static void countRepeatedCharacter(String string) {
 
         int[] counter = new int[256];
 
-        IntStream.range(0, string.length())
-                .forEach(i -> counter[string.charAt(i)]++);
+        IntStream.range(0, string.length()).forEach(i -> counter[string.charAt(i)]++);
 
-        IntStream.range(0, counter.length)
-                .filter(i -> counter[i] > 1)
-                .forEach(i -> System.out.println((char) i + " : " + counter[i]));
+        IntStream.range(0, counter.length).filter(i -> counter[i] > 1).forEach(i -> System.out.println((char) i + " : " + counter[i]));
     }
 
     public static void isNumberMultipleOf(int number, int multiplier) {
@@ -81,7 +75,6 @@ public class JuniorTest {
      * - offset of string to compare
      * - length to compare
      *
-     * @param morsecode
      */
     public static void morseCode(String morsecode) {
 
@@ -157,7 +150,7 @@ public class JuniorTest {
             return;
         }
 
-        List<Integer> arrOrdered = arr.stream().sorted().collect(Collectors.toList());
+        List<Integer> arrOrdered = arr.stream().sorted().toList();
         long sum = 0;
         for (int i = 1; i < n - 1; i++) {
             sum += arrOrdered.get(i);
@@ -191,8 +184,8 @@ public class JuniorTest {
         // Write your code here
         int countMin = 0;
         int countMax = 0;
-        int min = scores.get(0);
-        int max = scores.get(0);
+        int min = scores.getFirst();
+        int max = scores.getFirst();
 
         for (int score : scores) {
             if (score < min) {
@@ -212,6 +205,80 @@ public class JuniorTest {
         return records;
     }
 
+    public static void camelCase(List<String> list) {
+//        for (String line : list) {
+//            String[] splitLine = line.split(";");
+//            StringBuilder result = new StringBuilder();
+//
+//            if ("S".equals(splitLine[0])) {
+//
+//                //Split
+//                for (int i = 0; i < splitLine[2].length(); i++) {
+//                    char c = splitLine[2].charAt(i);
+//                    if (Character.isUpperCase(c) && i > 0) {
+//                        result.append(" ");
+//                    }
+//                    result.append(c);
+//                }
+//                System.out.println(result.toString().replace("()", "").toLowerCase());
+//            } else {
+//
+//                //Combine
+//                String[] words = splitLine[2].split(" ");
+//
+//                //Class
+//                if ("C".equals(splitLine[1])) {
+//                    result.append(Character.toUpperCase(words[0].charAt(0))).append(words[0].substring(1));
+//                } else {
+//                    result.append(words[0]);
+//                }
+//                for (int i = 1; i < words.length; i++) {
+//                    result.append(Character.toUpperCase(words[i].charAt(0))).append(words[i].substring(1));
+//                }
+//
+//                //Method
+//                if ("M".equals(splitLine[1])) {
+//                    result.append("()");
+//                }
+//                System.out.println(result);
+//            }
+//        }
+
+        //Functional programming
+        list.forEach(line -> {
+            String[] splitLine = line.split(";");
+            String result;
+
+            if ("S".equals(splitLine[0])) {
+                // Split
+                result = IntStream.range(0, splitLine[2].length()).mapToObj(i -> {
+                    char c = splitLine[2].charAt(i);
+                    return (Character.isUpperCase(c) && i > 0 ? " " : "") + c;
+                }).collect(Collectors.joining()).replace("()", "").toLowerCase();
+            } else {
+                // Combine
+                String[] words = splitLine[2].split(" ");
+                result = IntStream.range(0, words.length).mapToObj(i -> {
+                    String word = words[i];
+
+                    //Class
+                    if ((i == 0 && "C".equals(splitLine[1])) || (i > 0)) {
+                        return Character.toUpperCase(word.charAt(0)) + word.substring(1);
+                    } else {
+                        return word;
+                    }
+                }).collect(Collectors.joining());
+
+                // Method
+                if ("M".equals(splitLine[1])) {
+                    result += "()";
+                }
+            }
+            System.out.println(result);
+        });
+    }
+
+
     public static void main(String[] args) {
 
 //        reverseString("moto");
@@ -227,7 +294,8 @@ public class JuniorTest {
 //        minSizeSubstringDeleted("abcfgacbcrbbb");  //
 //        miniMaxSum(Arrays.asList(1, 2, 4, 5, 6, 7, 2, 346, 6, 5, 2));
 //        timeConversion("04:40:22AM"); //"12:34:43PM"
-        breakingRecords(List.of(10,5,20,20,4,5,2,25,1));
+//        breakingRecords(List.of(10, 5, 20, 20, 4, 5, 2, 25, 1));
+        camelCase(List.of("S;V;iPad", "C;M;mouse pad", "C;C;code swarm", "C;V;code variable", "S;C;OrangeHighlighter"));
     }
 
 }
